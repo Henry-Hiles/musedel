@@ -6,5 +6,5 @@ export default defineConfig({
     trailingSlash: "never",
     build: { format: "directory" },
     image: { service: passthroughImageService() },
-    base: "/musedel",
+    base: "/musedle",
 })
