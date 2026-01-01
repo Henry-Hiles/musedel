@@ -6,16 +6,21 @@ import "../styles/index.css"
 <Layout>
     <iframe
         id="music"
-        src="https://www.youtube-nocookie.com/embed/NyaOYfpq9Fc?enablejsapi=1"
+        src="https://www.youtube-nocookie.com/embed/0R6WIbx8ysE?enablejsapi=1"
     ></iframe>
     <button id="play">
-        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
-            ><path
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
+            <path
                 d="M320-273v-414q0-17 12-28.5t28-11.5q5 0 10.5 1.5T381-721l326 207q9 6 13.5 15t4.5 19q0 10-4.5 19T707-446L381-239q-5 3-10.5 4.5T360-233q-16 0-28-11.5T320-273Z"
-            ></path></svg
-        >
+            ></path>
+        </svg>
     </button>
-    <span id="timeout">1</span>
+    <section id="bar">
+        <div id="bars">
+            <div></div><div></div><div></div><div></div>
+            <div id="available"><div id="played"></div></div>
+        </div>
+    </section>
     <button id="skip">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960"
             ><path
@@ -23,70 +28,80 @@ import "../styles/index.css"
             ></path></svg
         >
     </button>
-
-    <script>
-        class ExtendableTimeout {
-            private timerId: ReturnType<typeof setTimeout>
-            private timeStart: number
-            private fn: () => void
-
-            constructor(fn: () => void, time: number) {
-                this.fn = fn
-                this.timeStart = Date.now()
-                this.timerId = setTimeout(fn, time)
-            }
-
-            extend(time: number): void {
-                clearTimeout(this.timerId)
-
-                const elapsed = Date.now() - this.timeStart
-                const newTime = Math.max(0, time - elapsed)
-
-                this.timerId = setTimeout(this.fn, newTime)
-            }
-
-            cancel(): void {
-                clearTimeout(this.timerId)
-            }
-        }
-
-        const iframe = document.querySelector("#music")
-        const play = document.querySelector("#play")
-        const skip = document.querySelector("#skip")
-        var timeout = 1000
-        var timer: ExtendableTimeout | null
-
-        const message = (command: String) =>
-            (iframe as HTMLIFrameElement)?.contentWindow?.postMessage(
-                JSON.stringify({
-                    event: "command",
-                    func: command,
-                }),
-                "*"
-            )
-
-        const playVideo = () => {
-            // fix times
-            timer?.cancel()
-            message("playVideo")
-            if (timer == null) {
-                timer = new ExtendableTimeout(() => {
-                    message("stopVideo")
-                    timer = null
-                }, timeout)
-            } else {
-            }
-        }
-
-        play?.addEventListener("click", playVideo)
-
-        skip?.addEventListener("click", () => {
-            if (timeout >= 16000) return alert("FAIL!!!!")
-            timeout *= 2
-            document.querySelector("#timeout")!.textContent = (
-                timeout / 1000
-            ).toString()
-            playVideo()
-        })
-    </script>
 </Layout>
+
+<script>
+    // Use css anim for progress
+    class ExtendableTimeout {
+        private timerId: ReturnType<typeof setTimeout>
+        private timeStart: number
+        private fn: () => void
+
+        constructor(fn: () => void, time: number) {
+            this.fn = fn
+            this.timeStart = Date.now()
+            this.timerId = setTimeout(fn, time)
+        }
+
+        extend(time: number): void {
+            clearTimeout(this.timerId)
+
+            const elapsed = Date.now() - this.timeStart
+            const newTime = Math.max(0, time - elapsed)
+
+            this.timerId = setTimeout(this.fn, newTime)
+        }
+
+        cancel(): void {
+            clearTimeout(this.timerId)
+        }
+    }
+
+    const iframe = document.querySelector("#music")
+    const play = document.querySelector("#play")
+    const skip = document.querySelector("#skip")
+    const available = document.querySelector("#available") as HTMLDivElement
+
+    var phase = 1
+    var timer: ExtendableTimeout | null
+
+    const getTimeout = () => 2 ** phase * 1000
+
+    const message = (command: String) =>
+        (iframe as HTMLIFrameElement)?.contentWindow?.postMessage(
+            JSON.stringify({
+                event: "command",
+                func: command,
+            }),
+            "*"
+        )
+
+    const playVideo = () => {
+        message("playVideo")
+        if (timer == null) {
+            timer = new ExtendableTimeout(() => {
+                message("stopVideo")
+                timer = null
+            }, getTimeout())
+        } else {
+            message("stopVideo")
+            message("playVideo")
+        }
+    }
+
+    play?.addEventListener("click", playVideo)
+
+    skip?.addEventListener("click", () => {
+        if (phase >= 4) return alert("FAIL!!!!")
+        phase += 1
+
+        //@ts-expect-error
+        available.style["grid-column-end"] = phase + 1
+
+        if (timer == null) {
+            playVideo()
+        } else {
+            timer.extend(getTimeout())
+        }
+    })
+</script>

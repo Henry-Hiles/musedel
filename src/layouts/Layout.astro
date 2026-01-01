@@ -1,5 +1,7 @@
 ---
 import "../styles/layout.css"
+import { Image } from "astro:assets"
+import icon from "../assets/logoLong.svg"
 ---
 
 <!doctype html>
@@ -9,9 +11,10 @@ import "../styles/layout.css"
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
         <meta name="generator" content={Astro.generator} />
-        <title>Musedel</title>
+        <title>Musedle</title>
     </head>
     <body>
-        <slot />
+        <nav><Image alt="Musedle" src={icon} /></nav>
+        <main><slot /></main>
     </body>
 </html>
