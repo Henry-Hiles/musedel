@@ -1,13 +1,3 @@
-#music {
-    position: absolute;
-    visibility: hidden;
-    bottom: 0;
-}
-
-#play {
-    position: relative;
-}
-
 #bar {
     & #bars {
         display: grid;
@@ -30,5 +20,24 @@
     & #available {
         background-color: white;
         width: 0;
+    }
+}
+
+.frame-container {
+    & span {
+        pointer-events: none;
+    }
+    position: relative;
+    & iframe {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        border: none;
+        z-index: -2;
+        pointer-events: all;
+
+        clip-path: inset(90% 0 0 90%);
+        transform-origin: bottom right;
+        transform: scale(10);
     }
 }

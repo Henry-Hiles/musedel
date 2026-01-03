@@ -3,13 +3,7 @@ import Layout from "../layouts/Layout.astro"
 import "../styles/index.css"
 ---
 
-<Layout
-    ><iframe
-        id="music"
-        width="100%"
-        height="300"
-        src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2196321083"
-    ></iframe>
+<Layout>
     <button id="play">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 -960 960 960">
             <path
@@ -19,7 +13,10 @@ import "../styles/index.css"
     </button>
     <section id="bar">
         <div id="bars">
-            <div></div><div></div><div></div>
+            <div></div>
+            <div></div>
+            <div></div>
+
             <div id="available"><div id="played"></div></div>
         </div>
     </section>
@@ -30,10 +27,18 @@ import "../styles/index.css"
             ></path></svg
         >
     </button>
+    <div class="fake-button-container frame-container"
+        ><div class="fake-button">
+            <span>Click here if audio won't play, then try playing again.</span>
+            <iframe
+                src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2196321083"
+            ></iframe>
+        </div></div
+    >
 </Layout>
 
 <script>
-    // Use css anim for progress
+    // TODO: Use css anim for progress
     class ExtendableTimeout {
         private timerId: ReturnType<typeof setTimeout>
         private timeStart: number
@@ -59,7 +64,7 @@ import "../styles/index.css"
         }
     }
 
-    const iframe = document.querySelector("#music")
+    const iframe = document.querySelector("iframe")
     const play = document.querySelector("#play")
     const skip = document.querySelector("#skip")
     const available = document.querySelector("#available") as HTMLDivElement
@@ -90,10 +95,15 @@ import "../styles/index.css"
         }
     }
 
-    iframe?.addEventListener("load", () => {
-        setTimeout(() => {
+    window.addEventListener("message", (event) => {
+        let data = JSON.parse(event.data)
+
+        if (data.method === "ready") {
+            message("setVolume", { value: 0 })
             message("play")
-        }, 300)
+            message("pause")
+            message("setVolume", { value: 30 })
+        }
     })
 
     play?.addEventListener("click", playVideo)
