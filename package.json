@@ -9,6 +9,8 @@
         "astro": "astro"
     },
     "dependencies": {
+        "@tidal-music/auth": "^1.4.0",
+        "@tidal-music/event-producer": "^2.4.0",
         "@tidal-music/player": "^0.11.2",
         "astro": "^5.16.6"
     }

@@ -1,6 +1,8 @@
 {
   "version": "5",
   "specifiers": {
+    "npm:@tidal-music/auth@^1.4.0": "1.4.0",
+    "npm:@tidal-music/event-producer@^2.4.0": "2.4.0",
     "npm:@tidal-music/player@~0.11.2": "0.11.2",
     "npm:astro@^5.16.6": "5.16.6_vite@6.4.1__picomatch@4.0.3_zod@3.25.76"
   },
@@ -548,8 +550,30 @@
         "tslib"
       ]
     },
+    "@tidal-music/auth@1.4.0": {
+      "integrity": "sha512-b/8n6aHYoMuzGbNTT4QOwm9xjTosHCn9F+Vi26Nq1x1OuK+XK9zbuAkSwma/C5eYHy4fPBTcSw82us5K5mUHmA==",
+      "dependencies": [
+        "@tidal-music/common",
+        "@tidal-music/true-time"
+      ]
+    },
+    "@tidal-music/common@0.2.0": {
+      "integrity": "sha512-XBNzRiN6rRQL0gu5cIigMdSQy1U4zEx5nJ9caaIACNXSu+RGGkYpoxWp8CBJTHtkQ3oSF2SMugNEo71i8LPP3g=="
+    },
+    "@tidal-music/event-producer@2.4.0": {
+      "integrity": "sha512-tlv7bIGkkS57nsbI4c2M7NGFQ03DQmU/wejnYv0fQ9veeRG6EH8g85Jbd+/MMw2qBqndtMq1fqk/GhjzB7bmJA==",
+      "dependencies": [
+        "@tidal-music/common",
+        "@tidal-music/true-time",
+        "localforage",
+        "nanoid@5.1.5"
+      ]
+    },
     "@tidal-music/player@0.11.2": {
       "integrity": "sha512-rNVxLmMHcT7vYd6KugcHMxAcOEcDonxY4XlFd15o/3vgBYr60nOLMlba3vmDfkddq813Lt9geYX7Osm6ll3lXQ=="
+    },
+    "@tidal-music/true-time@0.3.0": {
+      "integrity": "sha512-nO9DfLKLu5sCI/v6Yp8DSseu8qis0RI1r6l7oIFCusOAedkIbQT/K+ELaaz7cxXR4cboopUZGW55v4RVwxHE/g=="
     },
     "@types/debug@4.1.12": {
       "integrity": "sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==",
@@ -1153,6 +1177,9 @@
     "http-cache-semantics@4.2.0": {
       "integrity": "sha512-dTxcvPXqPvXBQpq5dUr6mEMJX4oIEFv6bwom3FDwKRDsuIjjJGANqhBuoAn9c1RQJIdAKav33ED65E2ys+87QQ=="
     },
+    "immediate@3.0.6": {
+      "integrity": "sha512-XXOFtyqDjNDAQxVfYxuF7g9Il/IbWmmlQg2MYKOH8ExIT1qg6xc4zyS3HaEEATgs1btfzxq15ciUiY7gjSXRGQ=="
+    },
     "import-meta-resolve@4.2.0": {
       "integrity": "sha512-Iqv2fzaTQN28s/FwZAoFq0ZSs/7hMAHJVX+w8PZl3cY19Pxk6jFFalxQoIfW2826i/fDLXv8IiEZRIT0lDuWcg=="
     },
@@ -1191,6 +1218,18 @@
     },
     "kleur@3.0.3": {
       "integrity": "sha512-eTIzlVOSUR+JxdDFepEYcBMtZ9Qqdef+rnzWdRZuMbOywu5tO2w2N7rqjoANZ5k9vywhL6Br1VRjUIgTQx4E8w=="
+    },
+    "lie@3.1.1": {
+      "integrity": "sha512-RiNhHysUjhrDQntfYSfY4MU24coXXdEOgw9WGcKHNeEwffDYbF//u87M1EWaMGzuFoSbqW0C9C6lEEhDOAswfw==",
+      "dependencies": [
+        "immediate"
+      ]
+    },
+    "localforage@1.10.0": {
+      "integrity": "sha512-14/H1aX7hzBBmmh7sGPd+AOMkkIrHM3Z1PAyGgZigA1H1p5O5ANnMyWzvpAETtG68/dC4pC0ncy3+PPGzXZHPg==",
+      "dependencies": [
+        "lie"
+      ]
     },
     "longest-streak@3.1.0": {
       "integrity": "sha512-9Ri+o0JYgehTaVBBDoMqIl8GXtbWg711O3srftcHhZ0dqnETqLaoIK0x17fUw9rFSlK/0NlsKe0Ahhyl5pXE2g=="
@@ -1606,6 +1645,10 @@
       "integrity": "sha512-N8SpfPUnUp1bK+PMYW8qSWdl9U+wwNWI4QKxOYDy9JAro3WMX7p2OeVRF9v+347pnakNevPmiHhNmZ2HbFA76w==",
       "bin": true
     },
+    "nanoid@5.1.5": {
+      "integrity": "sha512-Ir/+ZpE9fDsNH0hQ3C68uyThDXzYcim2EqcZ8zn8Chtt1iylPT9xXJB0kPCnqzgcEGikO9RxSrh63MsmVCU7Fw==",
+      "bin": true
+    },
     "neotraverse@0.6.18": {
       "integrity": "sha512-Z4SmBUweYa09+o6pG+eASabEpP6QkQ70yHj351pQoEXIs8uHbaU2DWVmzBANKgflPa47A50PtB2+NgRpQvr7vA=="
     },
@@ -1706,7 +1749,7 @@
     "postcss@8.5.6": {
       "integrity": "sha512-3Ybi1tAuwAP9s0r1UQ2J4n5Y0G05bJkpUIO0/bI9MhwmD70S5aTWbXGBwxHrelT+XM1k6dM0pk+SwNkpTRN7Pg==",
       "dependencies": [
-        "nanoid",
+        "nanoid@3.3.11",
         "picocolors",
         "source-map-js"
       ]
@@ -2266,6 +2309,8 @@
   "workspace": {
     "packageJson": {
       "dependencies": [
+        "npm:@tidal-music/auth@^1.4.0",
+        "npm:@tidal-music/event-producer@^2.4.0",
         "npm:@tidal-music/player@~0.11.2",
         "npm:astro@^5.16.6"
       ]

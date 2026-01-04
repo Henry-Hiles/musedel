@@ -7,4 +7,14 @@ export default defineConfig({
     build: { format: "directory" },
     image: { service: passthroughImageService() },
     base: "/musedle",
+    vite: {
+        optimizeDeps: {
+            esbuildOptions: {
+                target: "esnext",
+            },
+        },
+        build: {
+            target: "esnext",
+        },
+    },
 })

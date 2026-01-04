@@ -27,18 +27,21 @@ import "../styles/index.css"
             ></path></svg
         >
     </button>
-    <div class="fake-button-container frame-container"
-        ><div class="fake-button">
-            <span>If audio won't play, click here then try again.</span>
-            <iframe
-                src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/soundcloud%253Atracks%253A2196321083"
-            ></iframe>
-        </div></div
-    >
 </Layout>
 
 <script>
-    import * as Player from "@tidal-music/player"
+    import * as player from "@tidal-music/player"
+    import * as auth from "@tidal-music/auth"
+    import * as eventProducer from "@tidal-music/event-producer"
+
+    await auth.init({
+        clientId: "NkcXqihOmrfZdBla",
+        clientSecret: "e6ldlWH48BEBOUZV1uIyIWJOf1KUGUEeH6qHkFvNjeU=",
+        credentialsStorageKey: "key",
+    })
+
+    player.setCredentialsProvider(auth.credentialsProvider)
+    player.setEventSender(eventProducer)
 
     // TODO: Use css anim for progress
     class ExtendableTimeout {
@@ -66,7 +69,6 @@ import "../styles/index.css"
         }
     }
 
-    const iframe = document.querySelector("iframe")
     const play = document.querySelector("#play")
     const skip = document.querySelector("#skip")
     const available = document.querySelector("#available") as HTMLDivElement
@@ -76,37 +78,21 @@ import "../styles/index.css"
 
     const getTimeout = () => 2 ** phase * 1000
 
-    const message = (command: String, extra?: object) =>
-        (iframe as HTMLIFrameElement)?.contentWindow?.postMessage(
-            JSON.stringify({ method: command, ...extra }),
-            "*"
-        )
+    const playVideo = async () => {
+        await player.load({
+            productId: "3188631",
+            productType: "track",
+            sourceId: "3188629",
+            sourceType: "ALBUM",
+        })
+        player.play()
 
-    const playVideo = () => {
-        message("setVolume", { value: 30 })
-        message("play")
-        if (timer == null) {
-            timer = new ExtendableTimeout(() => {
-                message("seekTo", { value: 0 })
-                message("pause")
-                timer = null
-            }, getTimeout())
-        } else {
-            message("seekTo", { value: 0 })
-            message("play")
-        }
+        timer?.cancel()
+        timer = new ExtendableTimeout(() => {
+            player.pause()
+            timer = null
+        }, getTimeout())
     }
-
-    window.addEventListener("message", (event) => {
-        let data = JSON.parse(event.data)
-
-        if (data.method === "ready") {
-            message("setVolume", { value: 0 })
-            message("play")
-            message("pause")
-            message("setVolume", { value: 30 })
-        }
-    })
 
     play?.addEventListener("click", playVideo)
 
