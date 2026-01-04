@@ -1,6 +1,7 @@
 {
   "version": "5",
   "specifiers": {
+    "npm:@tidal-music/player@~0.11.2": "0.11.2",
     "npm:astro@^5.16.6": "5.16.6_vite@6.4.1__picomatch@4.0.3_zod@3.25.76"
   },
   "npm": {
@@ -546,6 +547,9 @@
       "dependencies": [
         "tslib"
       ]
+    },
+    "@tidal-music/player@0.11.2": {
+      "integrity": "sha512-rNVxLmMHcT7vYd6KugcHMxAcOEcDonxY4XlFd15o/3vgBYr60nOLMlba3vmDfkddq813Lt9geYX7Osm6ll3lXQ=="
     },
     "@types/debug@4.1.12": {
       "integrity": "sha512-vIChWdVG3LG1SMxEvI/AK+FWJthlrqlTu7fbrlywTkkaONwk/UAGaULXRlf8vkzFBLVm0zkMdCquhL5aOjhXPQ==",
@@ -2262,6 +2266,7 @@
   "workspace": {
     "packageJson": {
       "dependencies": [
+        "npm:@tidal-music/player@~0.11.2",
         "npm:astro@^5.16.6"
       ]
     }
