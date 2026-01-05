@@ -5,10 +5,82 @@ import "../styles/index.css"
 
 <Layout>
     <section id="guesses">
+        <span class="incorrect">A bad answer - Someone</span>
+        <span class="partial">Killer Queen - Queen</span>
+        <span class="correct">Bohemian Rhapsody - Queen</span>
         <span></span>
-        <span></span>
-        <span></span>
-        <span class="correct">The Correct Answer - Queen</span>
+        <div class="search-container">
+            <input type="text" id="search" placeholder="Make a guess here..." />
+            <section id="autocomplete"
+                ><button data-title="Ruler of Everything" data-artists="3524912"
+                    >Ruler of Everything - Tally Hall</button
+                ><button data-title="King of Everything" data-artists="7774122"
+                    >King of Everything - Dominic Fike</button
+                ><button
+                    data-title="The Queen Of All Everything"
+                    data-artists="35020"
+                    >The Queen Of All Everything - OTT</button
+                ><button
+                    data-title="Ruler of Everything"
+                    data-artists="37670866"
+                    >Ruler of Everything - Chonny Jash</button
+                ><button
+                    data-title="Ruler of Everything"
+                    data-artists="15539806"
+                    >Ruler of Everything - Sheet Music Boss</button
+                ><button data-title="Ruler of Everything" data-artists="3616070"
+                    >Ruler of Everything - Samuel Ljungblahd</button
+                ><button
+                    data-title="Ruler of Everything"
+                    data-artists="16653822"
+                    >Ruler of Everything - MixAndMash</button
+                ><button
+                    data-title="Ruler Of Everything"
+                    data-artists="16653822"
+                    >Ruler Of Everything - MixAndMash</button
+                ><button
+                    data-title="Ruler of Everything"
+                    data-artists="30871574"
+                    >Ruler of Everything - TheRealSullyG</button
+                ><button
+                    data-title="Ruler of Everything"
+                    data-artists="31171068"
+                    >Ruler of Everything - Intelevande</button
+                ><button data-title="King of Everything" data-artists="3520382"
+                    >King of Everything - Wiz Khalifa</button
+                ><button
+                    data-title="The Theory of Everything"
+                    data-artists="4133018"
+                    >The Theory of Everything - Jóhann Jóhannsson</button
+                ><button
+                    data-title="Everything Reminds Me Of Her"
+                    data-artists="3501428"
+                    >Everything Reminds Me Of Her - Elliott Smith</button
+                ><button
+                    data-title="At the Bottom of Everything"
+                    data-artists="16906"
+                    >At the Bottom of Everything - Bright Eyes</button
+                ><button
+                    data-title="Everything You Do Is A Balloon"
+                    data-artists="3568992"
+                    >Everything You Do Is A Balloon - Boards of Canada</button
+                ><button data-title="Ruler of My Heart" data-artists="10532"
+                    >Ruler of My Heart - Irma Thomas</button
+                ><button data-title="Ruler Of My Heart" data-artists="10532"
+                    >Ruler Of My Heart - Irma Thomas</button
+                ><button
+                    data-title="Everything Reminds Me Of You"
+                    data-artists="48201581"
+                    >Everything Reminds Me Of You - Take Care</button
+                ><button
+                    data-title="Everything Is Free"
+                    data-artists="4752502,4972344"
+                    >Everything Is Free - Flock Of Dimes, Sylvan Esso</button
+                ><button data-title="Everything" data-artists="8718491"
+                    >Everything - J.I the Prince of N.Y</button
+                ></section
+            >
+        </div>
     </section>
     <div>
         <button id="play">
@@ -36,86 +108,5 @@ import "../styles/index.css"
     </div>
 </Layout>
 
-<script>
-    import * as player from "@tidal-music/player"
-    import * as auth from "@tidal-music/auth"
-    import * as eventProducer from "@tidal-music/event-producer"
-
-    await auth.init({
-        clientId: "NkcXqihOmrfZdBla",
-        clientSecret: "e6ldlWH48BEBOUZV1uIyIWJOf1KUGUEeH6qHkFvNjeU=",
-        credentialsStorageKey: "ZvZbtTWzx5@1zfiWUluxWD9@di17e1da",
-    })
-
-    player.setCredentialsProvider(auth.credentialsProvider)
-    player.setEventSender(eventProducer)
-
-    class ExtendableTimeout {
-        private timerId: ReturnType<typeof setTimeout>
-        private timeStart: number
-        private fn: () => void
-
-        constructor(fn: () => void, time: number) {
-            this.fn = fn
-            this.timeStart = Date.now()
-            this.timerId = setTimeout(fn, time)
-        }
-
-        extend(time: number): void {
-            clearTimeout(this.timerId)
-
-            const elapsed = Date.now() - this.timeStart
-            const newTime = Math.max(0, time - elapsed)
-
-            this.timerId = setTimeout(this.fn, newTime)
-        }
-
-        cancel(): void {
-            clearTimeout(this.timerId)
-        }
-    }
-
-    const play = document.querySelector("#play")
-    const played = document.querySelector("#played")
-    const skip = document.querySelector("#skip")
-    const available = document.querySelector("#available")
-
-    let phase = 1
-    let timer: ExtendableTimeout | null
-
-    const getTimeout = (phase: number) => (2 ** phase - 1) * 1000
-
-    const playVideo = async () => {
-        await player.load({
-            productId: "36737274",
-            productType: "track",
-            sourceId: "",
-            sourceType: "",
-        })
-        await player.play()
-        played?.classList.add("playing")
-
-        timer?.cancel()
-        timer = new ExtendableTimeout(() => {
-            player.pause()
-            timer = null
-            played?.classList.remove("playing")
-        }, getTimeout(phase))
-    }
-
-    play?.addEventListener("click", playVideo)
-
-    skip?.addEventListener("click", () => {
-        if (phase >= 4) return alert("FAIL!!!!")
-        phase += 1
-
-        // @ts-expect-error
-        available.style["grid-column-end"] = phase + 1
-
-        if (timer == null) {
-            playVideo()
-        } else {
-            timer.extend(getTimeout(phase))
-        }
-    })
-</script>
+<script src="../scripts/playSong.ts"></script>
+<script src="../scripts/search.ts"></script>

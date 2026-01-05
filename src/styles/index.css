@@ -1,5 +1,6 @@
 main > * {
     display: flex;
+    gap: 1rem;
     width: 100%;
     justify-content: center;
     align-items: center;
@@ -10,25 +11,86 @@ main > * {
     flex-direction: column;
     gap: 2rem;
 
-    & span {
+    & > span {
         display: flex;
         justify-content: center;
         align-items: center;
 
         font-weight: bold;
 
-        background-color: #000;
+        background: rgb(26, 26, 26);
         height: 2.4rem;
         width: 100%;
 
         border-radius: 2rem;
 
         &.correct {
-            background-image: linear-gradient(
+            background: linear-gradient(
                 to bottom right,
                 var(--brand-pink) 0%,
                 var(--brand-purple) 100%
             );
+        }
+
+        &.partial {
+            background: linear-gradient(
+                to bottom right,
+                rgb(255, 135, 90) 0%,
+                rgb(255, 196, 69) 100%
+            );
+        }
+
+        &.incorrect {
+            background: linear-gradient(
+                to bottom right,
+                rgb(185, 74, 72) 0%,
+                rgb(157, 38, 29) 100%
+            );
+        }
+    }
+
+    & .search-container {
+        position: relative;
+        &,
+        & > * {
+            width: 100%;
+        }
+
+        & > input {
+            border: none;
+            border-radius: 1rem;
+            padding: 1rem;
+            background: rgb(220, 218, 218);
+
+            &:focus {
+                outline: 0.3rem solid var(--brand-pink);
+            }
+        }
+
+        & > section {
+            border-radius: 1rem;
+            background-color: rgb(46, 46, 46);
+
+            max-height: 30vh;
+            overflow: scroll;
+
+            display: flex;
+            flex-direction: column;
+
+            position: absolute;
+            top: 3.5rem;
+            z-index: 3;
+
+            border: 0.2rem solid var(--brand-gray);
+
+            & button {
+                width: 100%;
+                padding: 1rem;
+
+                &:not(:first-child) {
+                    border-top: 0.2rem solid var(--brand-gray);
+                }
+            }
         }
     }
 }

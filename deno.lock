@@ -1,6 +1,7 @@
 {
   "version": "5",
   "specifiers": {
+    "npm:@tidal-music/api@0.7": "0.7.0",
     "npm:@tidal-music/auth@^1.4.0": "1.4.0",
     "npm:@tidal-music/event-producer@^2.4.0": "2.4.0",
     "npm:@tidal-music/player@~0.11.2": "0.11.2",
@@ -548,6 +549,12 @@
       "integrity": "sha512-TXTnIcNJQEKwThMMqBXsZ4VGAza6bvN4pa41Rkqoio6QBKMvo+5lexeTMScGCIxtzgQJzElcvIltani+adC5PQ==",
       "dependencies": [
         "tslib"
+      ]
+    },
+    "@tidal-music/api@0.7.0": {
+      "integrity": "sha512-WaogpHAlGhwPR/ScapgvyiXMwCIakUQPdR78LVus4vEcXr1m0oKyeuNu54Y+jMSFM26caIk2kPx75yKpiegSmA==",
+      "dependencies": [
+        "openapi-fetch"
       ]
     },
     "@tidal-music/auth@1.4.0": {
@@ -1695,6 +1702,15 @@
         "regex-recursion"
       ]
     },
+    "openapi-fetch@0.15.0": {
+      "integrity": "sha512-OjQUdi61WO4HYhr9+byCPMj0+bgste/LtSBEcV6FzDdONTs7x0fWn8/ndoYwzqCsKWIxEZwo4FN/TG1c1rI8IQ==",
+      "dependencies": [
+        "openapi-typescript-helpers"
+      ]
+    },
+    "openapi-typescript-helpers@0.0.15": {
+      "integrity": "sha512-opyTPaunsklCBpTK8JGef6mfPhLSnyy5a0IN9vKtx3+4aExf+KxEqYwIy3hqkedXIB97u357uLMJsOnm3GVjsw=="
+    },
     "p-limit@6.2.0": {
       "integrity": "sha512-kuUqqHNUqoIWp/c467RI4X6mmyuojY5jGutNU0wVTmEOOfcuwLqyMVoAi9MKi2Ak+5i9+nhmrK4ufZE8069kHA==",
       "dependencies": [
@@ -2309,6 +2325,7 @@
   "workspace": {
     "packageJson": {
       "dependencies": [
+        "npm:@tidal-music/api@0.7",
         "npm:@tidal-music/auth@^1.4.0",
         "npm:@tidal-music/event-producer@^2.4.0",
         "npm:@tidal-music/player@~0.11.2",
